@@ -1,14 +1,11 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
 
-// @desc    Process checkout and create order
-// @route   POST /api/checkout
-// @access  Public
 exports.processCheckout = async (req, res, next) => {
   try {
     const { name, email, cartItems, userId = 'guest' } = req.body;
     
-    // Validate input
+
     if (!name || !email) {
       return res.status(400).json({
         success: false,
@@ -22,8 +19,7 @@ exports.processCheckout = async (req, res, next) => {
         message: 'Cart is empty'
       });
     }
-    
-    // Calculate total
+
     const orderItems = cartItems.map(item => ({
       productId: item.productId._id || item.productId,
       productName: item.productId.name || 'Unknown Product',
@@ -34,10 +30,9 @@ exports.processCheckout = async (req, res, next) => {
     
     const totalAmount = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
     
-    // Generate unique order ID
     const orderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     
-    // Create order
+    
     const order = await Order.create({
       orderId,
       customer: { name, email },
@@ -45,11 +40,9 @@ exports.processCheckout = async (req, res, next) => {
       totalAmount,
       status: 'confirmed'
     });
-    
-    // Clear cart after successful checkout
+
     await Cart.findOneAndDelete({ userId });
-    
-    // Generate receipt
+
     const receipt = {
       orderId: order.orderId,
       customer: {
@@ -73,9 +66,6 @@ exports.processCheckout = async (req, res, next) => {
   }
 };
 
-// @desc    Get order by ID
-// @route   GET /api/checkout/:orderId
-// @access  Public
 exports.getOrder = async (req, res, next) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId });

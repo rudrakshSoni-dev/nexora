@@ -36,12 +36,10 @@ const productSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Virtual for formatted price
 productSchema.virtual('formattedPrice').get(function() {
   return `$${this.price.toFixed(2)}`;
 });
 
-// Method to check stock availability
 productSchema.methods.isAvailable = function(quantity) {
   return this.inStock && this.stock >= quantity;
 };

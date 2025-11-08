@@ -1,9 +1,6 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 
-// @desc    Get cart with items and total
-// @route   GET /api/cart
-// @access  Public
 exports.getCart = async (req, res, next) => {
   try {
     const userId = req.query.userId || 'guest';
@@ -40,12 +37,10 @@ exports.getCart = async (req, res, next) => {
   }
 };
 
-// @desc    Add item to cart
-// @route   POST /api/cart
-// @access  Public
 exports.addToCart = async (req, res, next) => {
   try {
-    const { productId, quantity = 1 } = req.body;
+    const productId = req.body._id ;
+    const { quantity = 1 } = req.body;
     const userId = req.body.userId || 'guest';
     
     // Validate input
@@ -87,16 +82,14 @@ exports.addToCart = async (req, res, next) => {
       cart = new Cart({ userId, items: [] });
     }
     
-    // Check if item already exists in cart
     const existingItemIndex = cart.items.findIndex(
       item => item.productId.toString() === productId
     );
     
     if (existingItemIndex > -1) {
-      // Update quantity
       cart.items[existingItemIndex].quantity += quantity;
     } else {
-      // Add new item
+      
       cart.items.push({
         productId,
         quantity,
@@ -117,9 +110,6 @@ exports.addToCart = async (req, res, next) => {
   }
 };
 
-// @desc    Update cart item quantity
-// @route   PUT /api/cart/:itemId
-// @access  Public
 exports.updateCartItem = async (req, res, next) => {
   try {
     const { itemId } = req.params;
@@ -165,9 +155,6 @@ exports.updateCartItem = async (req, res, next) => {
   }
 };
 
-// @desc    Remove item from cart
-// @route   DELETE /api/cart/:itemId
-// @access  Public
 exports.removeFromCart = async (req, res, next) => {
   try {
     const { itemId } = req.params;
@@ -182,7 +169,6 @@ exports.removeFromCart = async (req, res, next) => {
       });
     }
     
-    // Remove item using pull
     cart.items.pull(itemId);
     await cart.save();
     await cart.populate('items.productId');
@@ -197,9 +183,6 @@ exports.removeFromCart = async (req, res, next) => {
   }
 };
 
-// @desc    Clear entire cart
-// @route   DELETE /api/cart
-// @access  Public
 exports.clearCart = async (req, res, next) => {
   try {
     const userId = req.query.userId || 'guest';
