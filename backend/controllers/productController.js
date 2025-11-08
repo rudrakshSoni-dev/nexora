@@ -43,14 +43,6 @@ const mockProducts = [
     stock: 100
   },
   {
-    name: 'USB-C Hub Adapter',
-    price: 34.99,
-    description: 'Multi-port USB-C hub with HDMI and card reader',
-    category: 'Accessories',
-    image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=300',
-    stock: 60
-  },
-  {
     name: 'Portable Phone Charger',
     price: 29.99,
     description: '20000mAh power bank with fast charging',
@@ -58,14 +50,7 @@ const mockProducts = [
     image: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=300',
     stock: 80
   },
-  {
-    name: 'HD Webcam 1080p',
-    price: 69.99,
-    description: 'Professional webcam with auto-focus and built-in microphone',
-    category: 'Electronics',
-    image: 'https://images.unsplash.com/photo-1589395937920-9d0c7370d4ea?w=300',
-    stock: 45
-  }
+
 ];
 
 // @desc    Get all products

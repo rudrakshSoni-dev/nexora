@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap");
+
+/* Define font globally */
+:root {
+  --font-display: "Bagel Fat One", system-ui, sans-serif;
+}
+
+/* Create a reusable class */
+.bagel {
+  font-family: var(--font-display);
+}
+
+
+.poppins-semibold {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
